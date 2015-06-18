@@ -11,8 +11,11 @@ td.setCard {
 	padding-bottom: 40px;
 	width: 95px;
 	height: 52px;
-	border: 1px solid black;
-	background-image: url(./cardimgs/03.gif);
+	border: 3px solid transparent;
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+td.selected_card {
+	border: 3px solid black;
 }
