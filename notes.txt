@@ -1,0 +1,23 @@
+
+GENERAL NOTES
+
+
+----------------------
+Basic functionalities:
+----------------------
+
+Get Set game to work
+Shortcuts enabled
+
+-----------------------------
+Intermediate functionalities: 
+-----------------------------
+
+Animations upon taking cards
+
+-------------------------
+Advanced functionalities:
+-------------------------
+
+Remapping shortcuts
+Enabling hidden face down card
