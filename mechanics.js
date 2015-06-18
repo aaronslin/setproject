@@ -8,6 +8,9 @@ var g_tilesSelected = [];
 var g_cardsOnBoard = new Array(21);
 var g_numSelected = 0;
 var g_vNum = 0; // Set to 0 when no game in session
+var g_gameStart = 0;
+var g_timeElapsed = 0;
+var startTimer;
 
 function reset_globals() {
 	g_cardsDealt = 0;
@@ -16,6 +19,8 @@ function reset_globals() {
 	g_cardsOnBoard = new Array(21);
 	g_numSelected = 0;
 	g_vNum = 0; 
+	g_gameStart = 0;
+	g_timeElapsed = 0;
 }
 
 function load_new_cards() {
@@ -98,6 +103,7 @@ function shift_cards_up(tile_list) {
 		else { // Case: Card was selected
 			tile_list.splice(index,1);
 		}
+		g_cardsOnBoard[i+g_vNum]="";
 	}
 
 	for(var i=0; i<card_list.length; i++) {
@@ -109,17 +115,19 @@ function deal_three_more(tile_list) {
 	for(var i=0; i<3; i++) {
 		deal_card(tile_list[i]);
 	}
+	announce("");
 }
 
 function deal_card(tile) {
 	deal_card_to_tile(g_cardSequence[g_cardsDealt], tile);
 	g_cardsDealt++;
+	update_HTML();
 }
 
 function deal_card_to_tile(card, tile) {
 	img_path = "url(./cardimgs/"+card+".gif)";
 	$("#card_"+tile).css("background-image", img_path);
-	g_cardsOnBoard[tileToInt(tile)] = g_cardSequence[g_cardsDealt];
+	g_cardsOnBoard[tileToInt(tile)] = card;
 }
 
 function tileToInt(tile) {
@@ -131,7 +139,10 @@ function intToTile(num) {
 }
 
 function end_game() {
-	
+	reset_globals();
+	announce("Game ended");
+	$("#startGame").css("background-color", "white");
+	clearInterval(startTimer);
 }
 
 function on_V_press() {
@@ -144,10 +155,11 @@ function on_V_press() {
 		tile_list = [intToTile(n), intToTile(n+1), intToTile(n+2)];
 		deal_three_more(tile_list);
 		one_more_row();
+		announce("New row added");
 	}
 	else {
 		// Replace later
-		console.log("Set exists!");
+		announce("A set exists");
 	}
 }
 
@@ -188,19 +200,34 @@ function three_tiles_selected() {
 	}
 	else {
 		// not a set
+		announce("Not a set")
 	}
 
 	g_tilesSelected = [];
 }
 
+function announce(msg) {
+	$("#announcement").get(0).innerHTML = msg;
+}
+
+function update_HTML() {
+	$("#cardsDealt").get(0).innerHTML = g_cardsDealt;
+}
+
 $(document).ready(function() {
 	$("#startGame").click(function() {
 		reset_globals();
+		announce("New game!");
+		//$("#startGame").css("background-color", "#B2E0F0");
+		g_gameStart = new Date;
 		g_cardSequence = load_new_cards();
+
+		startTimer = setInterval(function() {
+		    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
+		}, 1000);
 
 		for(var i=0; i<MAXCARDS/3; i++) {
 			one_more_row();
-			console.log(g_vNum);
 		}
 		alphabet = ALPHABET.substring(0,g_vNum).split("");
 		for(var i=0; i<alphabet.length; i++) {
@@ -216,6 +243,19 @@ $(document).ready(function() {
 		else if(tile=='v') {
 			on_V_press();
 		}
+	});
+
+	$(".setCard").click(function(tileTD) {
+		var tile = tileTD.currentTarget.id.split("_")[1];
+		select_tile(tile);
+	});
+
+	$("#addCards").click(function() {
+		on_V_press();
+	});
+
+	$("#testButton").click(function() {
+		end_game();
 	});
 });
 

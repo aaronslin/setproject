@@ -7,13 +7,23 @@ Basic functionalities:
 ----------------------
 
 Get Set game to work
-Shortcuts enabled
+Add a v option
+	Check if sets
+	Shift cards up
+	Add a layer
+Add a w option
+Clicking enable
+Timer
+End Game
 
 -----------------------------
 Intermediate functionalities: 
 -----------------------------
 
 Animations upon taking cards
+	Show what the third card selected was when it's not a set
+Mobile friendly
+
 
 -------------------------
 Advanced functionalities:
@@ -21,3 +31,5 @@ Advanced functionalities:
 
 Remapping shortcuts
 Enabling hidden face down card
+
+

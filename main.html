@@ -3,54 +3,91 @@
 		<link rel="stylesheet" type="text/css" href="./stylesheet.css" />
 		<script type="text/javascript" src="./jquery.js"></script>
 		<script type="text/javascript" src="./mechanics.js"></script>
+		<title>Set!</title>
 	</head>
 
 	<body>
-		<div id="container">
-			<button id="thebutton">
-				Press me!
-			</button>
-			<button id="startGame">
-				Start New Game
-			</button>
+		<div id="wrapper" style="display: table">
+		<div id="container" style="display: table-row">
+			<div id="sidePanel" style="display: table-cell">
+				<!--button id="testButton">Test</button><br/-->
 
-			<table id="setTable">
-				<tr class="setRow" id="row1">
-					<td id="card_a" class="setCard"></td>
-					<td id="card_b" class="setCard"></td>
-					<td id="card_c" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row2">
-					<td id="card_d" class="setCard"></td>
-					<td id="card_e" class="setCard"></td>
-					<td id="card_f" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row3">
-					<td id="card_g" class="setCard"></td>
-					<td id="card_h" class="setCard"></td>
-					<td id="card_i" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row4">
-					<td id="card_j" class="setCard"></td>
-					<td id="card_k" class="setCard"></td>
-					<td id="card_l" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row5">
-					<td id="card_m" class="setCard"></td>
-					<td id="card_n" class="setCard"></td>
-					<td id="card_o" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row6">
-					<td id="card_p" class="setCard"></td>
-					<td id="card_q" class="setCard"></td>
-					<td id="card_r" class="setCard"></td>
-				</tr>
-				<tr class="setRow" id="row7">
-					<td id="card_s" class="setCard"></td>
-					<td id="card_t" class="setCard"></td>
-					<td id="card_u" class="setCard"></td>
-				</tr>
-			</table>
+				<button id="startGame">Start New Game</button><br />
+				&nbsp; <br />
+				<button id="addCards">Add Cards (v)</button><br />
+				&nbsp;<br />
+				&nbsp;<br />
+				Cards dealt: <span id="cardsDealt">0</span><br/>
+				&nbsp;<br />
+				Time (seconds): <span id="timer">0</span></br/>
+
+			</div>
+			<div class="setDiv" style="display: table-cell">
+				<table id="setTable">
+					<tr id="setMessageRow">
+						<td colspan="100%">
+							<div id="announcement"></div>
+						</td>
+					</tr>
+					<tr class="setRow" id="row1">
+						<td id="card_a" class="setCard">
+							<div class="keymap">(a)</div></td>
+						<td id="card_b" class="setCard">
+							<div class="keymap">(b)</div></td>
+						<td id="card_c" class="setCard">
+							<div class="keymap">(c)</div></td>
+					</tr>
+					<tr class="setRow" id="row2">
+						<td id="card_d" class="setCard">
+							<div class="keymap">(d)</div></td>
+						<td id="card_e" class="setCard">
+							<div class="keymap">(e)</div></td>
+						<td id="card_f" class="setCard">
+							<div class="keymap">(f)</div></td>
+					</tr>
+					<tr class="setRow" id="row3">
+						<td id="card_g" class="setCard">
+							<div class="keymap">(g)</div></td>
+						<td id="card_h" class="setCard">
+							<div class="keymap">(h)</div></td>
+						<td id="card_i" class="setCard">
+							<div class="keymap">(i)</div></td>
+					</tr>
+					<tr class="setRow" id="row4">
+						<td id="card_j" class="setCard">
+							<div class="keymap">(j)</div></td>
+						<td id="card_k" class="setCard">
+							<div class="keymap">(k)</div></td>
+						<td id="card_l" class="setCard">
+							<div class="keymap">(l)</div></td>
+					</tr>
+					<tr class="setRow" id="row5">
+						<td id="card_m" class="setCard">
+							<div class="keymap">(m)</div></td>
+						<td id="card_n" class="setCard">
+							<div class="keymap">(n)</div></td>
+						<td id="card_o" class="setCard">
+							<div class="keymap">(o)</div></td>
+					</tr>
+					<tr class="setRow" id="row6">
+						<td id="card_p" class="setCard">
+							<div class="keymap">(p)</div></td>
+						<td id="card_q" class="setCard">
+							<div class="keymap">(q)</div></td>
+						<td id="card_r" class="setCard">
+							<div class="keymap">(r)</div></td>
+					</tr>
+					<tr class="setRow" id="row7">
+						<td id="card_s" class="setCard">
+							<div class="keymap">(s)</div></td>
+						<td id="card_t" class="setCard">
+							<div class="keymap">(t)</div></td>
+						<td id="card_u" class="setCard">
+							<div class="keymap">(u)</div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 		</div>
 	</body>
 </html>
