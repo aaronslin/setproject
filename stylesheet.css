@@ -5,6 +5,10 @@
 	margin-right: auto;
 }
 
+tr.setRow {
+	display: none;
+}
+
 td.setCard {
 	padding: 15px;
 	padding-top: 50px;
