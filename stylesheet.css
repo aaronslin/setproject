@@ -1,5 +1,18 @@
 /* Stylesheet */
 
-body {
-	color: red;
+#setTable {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.setCard {
+	padding: 15px;
+	padding-top: 50px;
+	padding-bottom: 40px;
+	width: 95px;
+	height: 52px;
+	border: 1px solid black;
+	background-image: url(./cardimgs/03.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
 }

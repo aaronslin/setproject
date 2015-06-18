@@ -1,30 +1,41 @@
 <html>
 	<head>
-		<input type="text/css" src="./stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="./stylesheet.css" />
+		<script type="text/javascript" src="./jquery.js"></script>
+		<script type="text/javascript" src="./mechanics.js"></script>
 	</head>
 
 	<body>
-		<table id="setTable">
-			<tr class="setRow">
-				<td id="card_a">Card</td>
-				<td id="card_b">Card</td>
-				<td id="card_c">Card</td>
-			</tr>
-			<tr class="setRow">
-				<td id="card_d">Card</td>
-				<td id="card_e">Card</td>
-				<td id="card_f">Card</td>
-			</tr>
-			<tr class="setRow">
-				<td id="card_g">Card</td>
-				<td id="card_h">Card</td>
-				<td id="card_i">Card</td>
-			</tr>
-			<tr class="setRow">
-				<td id="card_j">Card</td>
-				<td id="card_k">Card</td>
-				<td id="card_l">Card</td>
-			</tr>
-		</table>
+		<div id="container">
+			<table id="setTable">
+				<tr class="setRow">
+					<td id="card_a" class="setCard"></td>
+					<td id="card_b" class="setCard"></td>
+					<td id="card_c" class="setCard"></td>
+				</tr>
+				<tr class="setRow">
+					<td id="card_d" class="setCard"></td>
+					<td id="card_e" class="setCard"></td>
+					<td id="card_f" class="setCard"></td>
+				</tr>
+				<tr class="setRow">
+					<td id="card_g" class="setCard"></td>
+					<td id="card_h" class="setCard"></td>
+					<td id="card_i" class="setCard"></td>
+				</tr>
+				<tr class="setRow">
+					<td id="card_j" class="setCard"></td>
+					<td id="card_k" class="setCard"></td>
+					<td id="card_l" class="setCard"></td>
+				</tr>
+			</table>
+
+			<button id="thebutton">
+				Press me!
+			</button>
+			<button id="startGame">
+				Start New Game
+			</button>
+		</div>
 	</body>
 </html>
