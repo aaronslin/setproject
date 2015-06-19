@@ -116,6 +116,7 @@ function shift_cards_up(tile_list) {
 	for(var i=0; i<card_list.length; i++) {
 		deal_card_to_tile(card_list[i], tile_list[i]);
 	}
+	update_HTML();
 }
 
 function deal_three_more(tile_list) {
@@ -128,13 +129,13 @@ function deal_three_more(tile_list) {
 function deal_card(tile) {
 	deal_card_to_tile(g_cardSequence[g_cardsDealt], tile);
 	g_cardsDealt++;
+	update_HTML();
 }
 
 function deal_card_to_tile(card, tile) {
 	img_path = "url(./cardimgs/"+card+".gif)";
 	$("#card_"+tile).css("background-image", img_path);
 	g_cardsOnBoard[tileToInt(tile)] = card;
-	update_HTML();
 }
 
 function checkNumRowsInput() {
@@ -164,7 +165,7 @@ function on_V_press() {
 	if (g_gameStart == 0) {
 		return;
 	}
-	if(!doesSetExist()) {
+	if(doesSetExist()) {
 		if (g_cardsDealt >= 81 ) {
 			end_game();
 			return;
@@ -177,20 +178,21 @@ function on_V_press() {
 	}
 	else {
 		// Replace later
-		announce("A set exists", 200);
+		announce("A set exists", 300);
 	}
 }
 
-function select_tile(tile) {
-	$("#card_"+tile).toggleClass("selected_card");
 
+function select_tile(tile) {
 	if(g_tilesSelected.length<3) {
 		index = g_tilesSelected.indexOf(tile)
-		if(index != -1) {
+		if(index != -1) { 
 			g_tilesSelected.splice(index,1);
+			deselect_animation(tile);
 		}
 		else {
 			g_tilesSelected.push(tile);
+			select_animation(tile);
 		}
 	}
 	if(g_tilesSelected.length==3) {
@@ -198,16 +200,31 @@ function select_tile(tile) {
 	}
 }
 
+function select_animation(tile) {
+	$("#card_"+tile).addClass("selected_card");
+	$("#card_"+tile).removeClass("unselected_card");
+	$("#card_"+tile).removeClass("finished_card");
+}
+
+function deselect_animation(tile, delay) {
+	if (typeof(delay)==='undefined') {
+		$("#card_"+tile).removeClass("selected_card");
+		$("#card_"+tile).addClass("unselected_card");	
+		$("#card_"+tile).removeClass("finished_card");
+	}
+	else {
+		window.setTimeout(function() {
+			$("#card_"+tile).addClass("finished_card");
+			$("#card_"+tile).removeClass("selected_card");
+			$("#card_"+tile).removeClass("unselected_card");
+		}, delay);
+	}
+}
+
 function three_tiles_selected() {
-	// Unselect everything; this is fragile
 	cardNos = [];
 	tiles_copy = g_tilesSelected.concat();
-	window.setTimeout(function() {
-		for(var i=0; i<3; i++) {
-			tile = tiles_copy[i];
-			$("#card_"+tile).toggleClass("selected_card");	
-		}
-	}, 10);
+	var delay = 30;
 	for(var i=0; i<3; i++) {
 		tile = g_tilesSelected[i];
 		cardNos.push(g_cardsOnBoard[tileToInt(tile)]);
@@ -216,14 +233,19 @@ function three_tiles_selected() {
 	if (isSet(cardNos)) {
 		if(g_cardsDealt<81 && g_vNum==MAXCARDS) {
 			deal_three_more(g_tilesSelected);
+			delay=30;
 		}
 		else {
 			shift_cards_up(g_tilesSelected);
+			delay=130;
 		}
 	}
 	else {
 		// not a set
-		announce("Not a set", 200)
+		announce("Not a set", 300)
+	}
+	for(var i=0; i<3; i++) {
+		deselect_animation(tiles_copy[i], delay);
 	}
 	g_tilesSelected = [];
 }
