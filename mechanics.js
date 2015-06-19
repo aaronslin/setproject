@@ -22,6 +22,9 @@ function reset_globals() {
 	g_vNum = 0; 
 	g_gameStart = 0;
 	g_timeElapsed = 0;
+	for(var i=1; i<=7; i++) {
+		$("#row"+i.toString()).css("display","none");
+	}
 }
 
 function load_new_cards() {
