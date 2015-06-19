@@ -165,7 +165,7 @@ function on_V_press() {
 	if (g_gameStart == 0) {
 		return;
 	}
-	if(doesSetExist()) {
+	if(!doesSetExist()) {
 		if (g_cardsDealt >= 81 ) {
 			end_game();
 			return;
