@@ -9,6 +9,8 @@
 	<body>
 		<div id="wrapper" style="display: table">
 		<div id="container" style="display: table-row">
+			<div id="leftMargin" style="display: table-cell">&nbsp;
+			</div>
 			<div id="sidePanel" style="display: table-cell">
 				<!--button id="testButton">Test</button><br/-->
 
@@ -16,14 +18,24 @@
 				&nbsp; <br />
 				<button id="addCards">Add Cards (v)</button><br />
 				&nbsp;<br />
+				<button id="hint" class="disabled">Hint (x)</button><br />
+				&nbsp;<br />
+				&nbsp;<br />
 				&nbsp;<br />
 				Cards dealt: <span id="cardsDealt">0</span><br/>
 				&nbsp;<br />
 				Time (seconds): <span id="timer">0</span><br/>
 				&nbsp;<br />
-				Number of Sets: <span id="numSets">0</span><br />
+				<span id="numSetsContainer" class="transparent">Number of Sets: <span id="numSets">0</span></span><br />
 				&nbsp;<br />
-				Rows: &nbsp; <input id="numRowsInput" value="4" onblur="checkNumRowsInput();" />
+				&nbsp;<br />
+				&nbsp;<br />
+				Rows: &nbsp; <input id="numRowsInput" value="4" onblur="checkNumRowsInput();" /><br />
+				&nbsp;<br />
+				Enable Hints: <input id="enableHints" type="checkbox" /><br/>
+				&nbsp;<br />
+				Count Sets: <input id="countSets" type="checkbox" /><br />
+
 
 			</div>
 			<div class="setDiv" style="display: table-cell">

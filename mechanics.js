@@ -6,7 +6,6 @@ var g_cardsDealt = 0;
 var g_cardSequence;
 var g_tilesSelected = [];
 var g_cardsOnBoard = new Array(21);
-var g_numSelected = 0;
 var g_vNum = 0; // Set to 0 when no game in session
 var g_gameStart = 0;
 var g_timeElapsed = 0;
@@ -18,7 +17,6 @@ function reset_globals() {
 	g_cardSequence;
 	g_tilesSelected = [];
 	g_cardsOnBoard = new Array(21);
-	g_numSelected = 0;
 	g_vNum = 0; 
 	g_gameStart = 0;
 }
@@ -58,23 +56,34 @@ function one_more_row() {
 	g_vNum = g_vNum + 3;
 }
 
-function isSet(cardNos) {
-	card = new Array(3);
-	mod = new Array(3);
+function isNotSet(cardNos) {
+	var error = ['Number','Color','Shape','Fill'];
+	var card = new Array(3);
+	var mod = new Array(3);
 	for(var i=0; i<3; i++) {
 		card[i] = parseInt(cardNos[i])-1;
 	}
 
+	var count=0;
 	while(!(card[0]==0 && card[1]==0 && card[2]==0)) {
 		for(var i=0; i<3; i++) {
 			mod[i] = card[i]%3;
 			card[i] = (card[i]-mod[i])/3;
 		}
 		if ((mod[0] + mod[1] + mod[2])%3!=0) {
-			return false;
+			return error[count];
 		}
+		count++;
 	}
-	return true;
+	return false;
+}
+
+function isSet(cardNos) {
+	error_msg = isNotSet(cardNos);
+	if (!error_msg) {
+		return true;
+	}
+	return false;
 }
 
 function findAllSets() {
@@ -124,6 +133,9 @@ function deal_three_more(tile_list) {
 		deal_card(tile_list[i]);
 	}
 	announce("");
+	if (g_cardsDealt==81) {
+		announce("No more deck");
+	}
 }
 
 function deal_card(tile) {
@@ -178,14 +190,14 @@ function on_V_press() {
 	}
 	else {
 		// Replace later
-		announce("A set exists", 300);
+		announce("A Set exists", 400);
 	}
 }
 
 
 function select_tile(tile) {
 	if(g_tilesSelected.length<3) {
-		index = g_tilesSelected.indexOf(tile)
+		index = g_tilesSelected.indexOf(tile);
 		if(index != -1) { 
 			g_tilesSelected.splice(index,1);
 			deselect_animation(tile);
@@ -230,7 +242,8 @@ function three_tiles_selected() {
 		cardNos.push(g_cardsOnBoard[tileToInt(tile)]);
 	}
 
-	if (isSet(cardNos)) {
+	var error_msg = isNotSet(cardNos);
+	if (!error_msg) {
 		if(g_cardsDealt<81 && g_vNum==MAXCARDS) {
 			deal_three_more(g_tilesSelected);
 			delay=30;
@@ -241,8 +254,7 @@ function three_tiles_selected() {
 		}
 	}
 	else {
-		// not a set
-		announce("Not a set", 300)
+		announce("Not a Set: "+error_msg, 400)
 	}
 	for(var i=0; i<3; i++) {
 		deselect_animation(tiles_copy[i], delay);
@@ -270,6 +282,60 @@ function announce_perm(msg) {
 function update_HTML() {
 	$("#cardsDealt").get(0).innerHTML = g_cardsDealt;
 	$("#numSets").get(0).innerHTML = findAllSets().length;
+}
+
+function get_hint() {
+	if (!$("#enableHints").is(":checked")) {
+		return;
+	}
+	if (!g_gameStart) {
+		return;
+	}
+	var numSelected = g_tilesSelected.length;
+	allSets = findAllSets();
+	if (allSets.length==0) {
+		announce("No Sets");
+	}
+	else if (numSelected==0) {
+		rand1 = Math.floor(allSets.length*Math.random());
+		rand2 = Math.floor(3*Math.random());
+		var tile = intToTile(allSets[rand1][rand2]);
+		select_tile(tile);
+	}
+	else if (numSelected==1) {
+		var isContained = false;
+		var coord;
+		for (var i=0; i<allSets.length; i++) {
+			for (var j=0; j<3; j++) {
+				if (allSets[i][j]==tileToInt(g_tilesSelected[0])) {
+					isContained = true;
+					coord = [i,j];
+				}
+			}
+		}
+		if (isContained) {
+			rand = Math.floor(2*Math.random())+1;
+			var tile = intToTile(allSets[coord[0]][(coord[1]+rand)%3]);
+			select_tile(tile);
+		}
+		else {
+			select_tile(g_tilesSelected[0]);
+		}
+	}
+	else if (numSelected==2) {
+		var card1 = g_cardsOnBoard[tileToInt(g_tilesSelected[0])];  
+		var card2 = g_cardsOnBoard[tileToInt(g_tilesSelected[1])];  
+		for (var i=0; i<g_vNum; i++) {
+			var card3 = g_cardsOnBoard[i];
+			if (isSet([card1,card2,card3])) {
+				select_tile(intToTile(i));
+				return;
+			}
+		}
+
+		select_tile(intToTile(g_tilesSelected[0]));
+		select_tile(intToTile(g_tilesSelected[1]));
+	}
 }
 
 $(document).ready(function() {
@@ -303,19 +369,30 @@ $(document).ready(function() {
 		else if(tile=='v') {
 			on_V_press();
 		}
+		else if(tile=='x') {
+			get_hint();
+		}
 	});
 
 	$(".setCard").click(function(tileTD) {
 		var tile = tileTD.currentTarget.id.split("_")[1];
 		select_tile(tile);
 	});
-
 	$("#addCards").click(function() {
 		on_V_press();
 	});
-
 	$("#testButton").click(function() {
 		end_game();
+	});
+	$("#hint").click(function() {
+		get_hint();
+	});
+	$("#enableHints").change(function() {
+		$("#hint").toggleClass("disabled");
+		$(this).blur();
+	});
+	$("#countSets").change(function() {
+		$("#numSetsContainer").toggleClass("transparent");
 	});
 });
 

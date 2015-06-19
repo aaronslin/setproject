@@ -23,6 +23,8 @@ Intermediate functionalities:
 Animations upon taking cards
 	Show what the third card selected was when it's not a set
 Mobile friendly
+Keep track of the number of v's
+Unfocus the Start New Game
 
 
 -------------------------
@@ -31,5 +33,23 @@ Advanced functionalities:
 
 Remapping shortcuts
 Enabling hidden face down card
-
+List of sassy messages for "there's a set" or "not a set"
+User settings
+	Disable timer
+	Remapping shortcuts
+	Keep track of times
+	How big the cards are/spacing
+	Display the number of sets
+	How many cards on the board at a time
+	Upside down last card
+	Hints
+	Enter custom CSS code
+Modes
+	Find all of the sets
+	Typeracer (see what the other person is doing)
+	Beginner modes?
+	Learning/predicting which set you'll find
+	How snarky the messages should be
+	Scatter; see list of ideas
+	Set puns
 
