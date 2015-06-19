@@ -1,7 +1,7 @@
 
 
 var ALPHABET = 'abcdefghijklmnopqrstu';
-var MAXCARDS = 12;
+var MAXCARDS = 15;
 var g_cardsDealt = 0;
 var g_cardSequence;
 var g_tilesSelected = [];
@@ -140,8 +140,7 @@ function intToTile(num) {
 
 function end_game() {
 	reset_globals();
-	announce("Game ended");
-	$("#startGame").css("background-color", "white");
+	announce_perm("Game ended");
 	clearInterval(startTimer);
 }
 
@@ -159,7 +158,7 @@ function on_V_press() {
 	}
 	else {
 		// Replace later
-		announce("A set exists");
+		announce("A set exists", 200);
 	}
 }
 
@@ -183,11 +182,18 @@ function select_tile(tile) {
 function three_tiles_selected() {
 	// Unselect everything; this is fragile
 	cardNos = [];
+	tiles_selected = g_tilesSelected;
+	window.setTimeout(function() {
+		for(var i=0; i<3; i++) {
+			tile = tiles_selected[i];
+			$("#card_"+tile).toggleClass("selected_card");	
+		}
+	}, 10);
 	for(var i=0; i<3; i++) {
 		tile = g_tilesSelected[i];
-		$("#card_"+tile).toggleClass("selected_card");
 		cardNos.push(g_cardsOnBoard[tileToInt(tile)]);
 	}
+
 
 	selectedTiles = g_tilesSelected;
 	if (isSet(cardNos)) {
@@ -200,25 +206,37 @@ function three_tiles_selected() {
 	}
 	else {
 		// not a set
-		announce("Not a set")
+		announce("Not a set", 200)
 	}
-
 	g_tilesSelected = [];
 }
 
-function announce(msg) {
+function announce(msg, wait) {
+	wait = wait || 400; // Default value
+	fadeintime = wait/2;
+	fadeouttime = wait*2.5;
 	$("#announcement").get(0).innerHTML = msg;
+	$("#announcement").fadeIn(fadeintime, function() {
+		$(this).delay(wait).fadeOut(fadeouttime, function() {
+			$("#announcement").get(0).innerHTML = "";
+		});
+	});
+}
+
+function announce_perm(msg) {
+	$("#announcement").get(0).innerHTML = msg;
+	$("#announcement").css("display", "inline");
 }
 
 function update_HTML() {
 	$("#cardsDealt").get(0).innerHTML = g_cardsDealt;
+	$("#numSets").get(0).innerHTML = findAllSets().length;
 }
 
 $(document).ready(function() {
 	$("#startGame").click(function() {
 		reset_globals();
 		announce("New game!");
-		//$("#startGame").css("background-color", "#B2E0F0");
 		g_gameStart = new Date;
 		g_cardSequence = load_new_cards();
 
@@ -233,6 +251,8 @@ $(document).ready(function() {
 		for(var i=0; i<alphabet.length; i++) {
 			deal_card(alphabet[i]);
 		}
+
+		$("#startGame").blur();
 	});
 
 	$(document).keypress(function(press) {
