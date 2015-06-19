@@ -21,11 +21,13 @@ function reset_globals() {
 	g_numSelected = 0;
 	g_vNum = 0; 
 	g_gameStart = 0;
+}
+
+function reset_game() {
 	g_timeElapsed = 0;
 	for(var i=1; i<=7; i++) {
 		$("#row"+i.toString()).css("display","none");
 	}
-	// meh redundancy
 }
 
 function load_new_cards() {
@@ -126,13 +128,13 @@ function deal_three_more(tile_list) {
 function deal_card(tile) {
 	deal_card_to_tile(g_cardSequence[g_cardsDealt], tile);
 	g_cardsDealt++;
-	update_HTML();
 }
 
 function deal_card_to_tile(card, tile) {
 	img_path = "url(./cardimgs/"+card+".gif)";
 	$("#card_"+tile).css("background-image", img_path);
 	g_cardsOnBoard[tileToInt(tile)] = card;
+	update_HTML();
 }
 
 function checkNumRowsInput() {
@@ -159,8 +161,11 @@ function end_game() {
 }
 
 function on_V_press() {
+	if (g_gameStart == 0) {
+		return;
+	}
 	if(!doesSetExist()) {
-		if (g_cardsDealt>=81) {
+		if (g_cardsDealt >= 81 ) {
 			end_game();
 			return;
 		}
@@ -243,12 +248,12 @@ function announce_perm(msg) {
 function update_HTML() {
 	$("#cardsDealt").get(0).innerHTML = g_cardsDealt;
 	$("#numSets").get(0).innerHTML = findAllSets().length;
-	console.log(findAllSets());
 }
 
 $(document).ready(function() {
 	$("#startGame").click(function() {
 		reset_globals();
+		reset_game();
 		announce("New game!");
 		g_gameStart = new Date;
 		g_cardSequence = load_new_cards();
