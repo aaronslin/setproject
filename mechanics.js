@@ -1,7 +1,7 @@
 
 
 var ALPHABET = 'abcdefghijklmnopqrstu';
-var MAXCARDS = 15;
+var MAXCARDS = 12;
 var g_cardsDealt = 0;
 var g_cardSequence;
 var g_tilesSelected = [];
@@ -13,6 +13,7 @@ var g_timeElapsed = 0;
 var startTimer;
 
 function reset_globals() {
+	MAXCARDS = 3*checkNumRowsInput();
 	g_cardsDealt = 0;
 	g_cardSequence;
 	g_tilesSelected = [];
@@ -130,6 +131,15 @@ function deal_card_to_tile(card, tile) {
 	g_cardsOnBoard[tileToInt(tile)] = card;
 }
 
+function checkNumRowsInput() {
+	input = parseInt($("#numRowsInput").val());
+	if([1,2,3,4,5,6,7].indexOf(input) == -1) {
+		input = 4;
+		$("#numRowsInput").val(4);
+	}
+	return input;
+}
+
 function tileToInt(tile) {
 	return tile.charCodeAt() - 'a'.charCodeAt();
 }
@@ -182,10 +192,10 @@ function select_tile(tile) {
 function three_tiles_selected() {
 	// Unselect everything; this is fragile
 	cardNos = [];
-	tiles_selected = g_tilesSelected;
+	tiles_copy = g_tilesSelected.concat();
 	window.setTimeout(function() {
 		for(var i=0; i<3; i++) {
-			tile = tiles_selected[i];
+			tile = tiles_copy[i];
 			$("#card_"+tile).toggleClass("selected_card");	
 		}
 	}, 10);
@@ -194,14 +204,12 @@ function three_tiles_selected() {
 		cardNos.push(g_cardsOnBoard[tileToInt(tile)]);
 	}
 
-
-	selectedTiles = g_tilesSelected;
 	if (isSet(cardNos)) {
 		if(g_cardsDealt<81 && g_vNum==MAXCARDS) {
-			deal_three_more(selectedTiles);
+			deal_three_more(g_tilesSelected);
 		}
 		else {
-			shift_cards_up(selectedTiles);
+			shift_cards_up(g_tilesSelected);
 		}
 	}
 	else {
