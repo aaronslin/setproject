@@ -25,6 +25,7 @@ function reset_globals() {
 	for(var i=1; i<=7; i++) {
 		$("#row"+i.toString()).css("display","none");
 	}
+	// meh redundancy
 }
 
 function load_new_cards() {
@@ -138,8 +139,8 @@ function checkNumRowsInput() {
 	input = parseInt($("#numRowsInput").val());
 	if([1,2,3,4,5,6,7].indexOf(input) == -1) {
 		input = 4;
-		$("#numRowsInput").val(4);
 	}
+	$("#numRowsInput").val(input);
 	return input;
 }
 
@@ -165,8 +166,8 @@ function on_V_press() {
 		}
 		n = g_vNum;
 		tile_list = [intToTile(n), intToTile(n+1), intToTile(n+2)];
-		deal_three_more(tile_list);
 		one_more_row();
+		deal_three_more(tile_list);
 		announce("New row added");
 	}
 	else {
@@ -242,6 +243,7 @@ function announce_perm(msg) {
 function update_HTML() {
 	$("#cardsDealt").get(0).innerHTML = g_cardsDealt;
 	$("#numSets").get(0).innerHTML = findAllSets().length;
+	console.log(findAllSets());
 }
 
 $(document).ready(function() {
