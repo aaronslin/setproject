@@ -19,6 +19,7 @@ function reset_globals() {
 	g_cardsOnBoard = new Array(21);
 	g_vNum = 0; 
 	g_gameStart = 0;
+	clearInterval(startTimer);
 }
 
 function reset_game() {
@@ -345,10 +346,15 @@ $(document).ready(function() {
 		announce("New game!");
 		g_gameStart = new Date;
 		g_cardSequence = load_new_cards();
-
 		startTimer = setInterval(function() {
 		    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
 		}, 1000);
+
+
+		console.log("gamestart", g_gameStart);
+		console.log("timeelapsed", g_timeElapsed);
+		console.log("startTimer", startTimer);
+
 
 		for(var i=0; i<MAXCARDS/3; i++) {
 			one_more_row();
