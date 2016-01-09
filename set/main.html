@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./stylesheet.css" />
+		<script type="text/javascript" src="./jquery.js"></script>
+		<script type="text/javascript" src="./mechanics.js"></script>
+		<title>Set!</title>
+	</head>
+
+	<body>
+		<div id="wrapper" style="display: table">
+		<div id="container" style="display: table-row">
+			<div id="leftMargin" style="display: table-cell">&nbsp;
+			</div>
+			<div id="sidePanel" style="display: table-cell">
+				<!--button id="testButton">Test</button><br/-->
+
+				<button id="startGame">Start New Game</button><br />
+				&nbsp; <br />
+				<button id="addCards">Add Cards (v)</button><br />
+				&nbsp;<br />
+				<button id="hint" class="disabled">Hint (x)</button><br />
+				&nbsp;<br />
+				&nbsp;<br />
+				&nbsp;<br />
+				Cards dealt: <span id="cardsDealt">0</span><br/>
+				&nbsp;<br />
+				Time (seconds): <span id="timer">0</span><br/>
+				&nbsp;<br />
+				<span id="numSetsContainer" class="transparent">Number of Sets: <span id="numSets">0</span></span><br />
+				&nbsp;<br />
+				&nbsp;<br />
+				&nbsp;<br />
+				Rows: &nbsp; <input id="numRowsInput" value="4" onblur="checkNumRowsInput();" /><br />
+				&nbsp;<br />
+				Enable Hints: <input id="enableHints" type="checkbox" /><br/>
+				&nbsp;<br />
+				Count Sets: <input id="countSets" type="checkbox" /><br />
+
+
+			</div>
+			<div class="setDiv" style="display: table-cell">
+				<table id="setTable">
+					<tr id="setMessageRow">
+						<td colspan="100%">
+							<div id="announce_head">
+								<span id="announcement"></span>
+							</div>
+						</td>
+					</tr>
+					<tr class="setRow" id="row1">
+						<td id="card_a" class="setCard unselected_card">
+							<div class="keymap">(a)</div></td>
+						<td id="card_b" class="setCard unselected_card">
+							<div class="keymap">(b)</div></td>
+						<td id="card_c" class="setCard unselected_card">
+							<div class="keymap">(c)</div></td>
+					</tr>
+					<tr class="setRow" id="row2">
+						<td id="card_d" class="setCard unselected_card">
+							<div class="keymap">(d)</div></td>
+						<td id="card_e" class="setCard unselected_card">
+							<div class="keymap">(e)</div></td>
+						<td id="card_f" class="setCard unselected_card">
+							<div class="keymap">(f)</div></td>
+					</tr>
+					<tr class="setRow" id="row3">
+						<td id="card_g" class="setCard unselected_card">
+							<div class="keymap">(g)</div></td>
+						<td id="card_h" class="setCard unselected_card">
+							<div class="keymap">(h)</div></td>
+						<td id="card_i" class="setCard unselected_card">
+							<div class="keymap">(i)</div></td>
+					</tr>
+					<tr class="setRow" id="row4">
+						<td id="card_j" class="setCard unselected_card">
+							<div class="keymap">(j)</div></td>
+						<td id="card_k" class="setCard unselected_card">
+							<div class="keymap">(k)</div></td>
+						<td id="card_l" class="setCard unselected_card">
+							<div class="keymap">(l)</div></td>
+					</tr>
+					<tr class="setRow" id="row5">
+						<td id="card_m" class="setCard unselected_card">
+							<div class="keymap">(m)</div></td>
+						<td id="card_n" class="setCard unselected_card">
+							<div class="keymap">(n)</div></td>
+						<td id="card_o" class="setCard unselected_card">
+							<div class="keymap">(o)</div></td>
+					</tr>
+					<tr class="setRow" id="row6">
+						<td id="card_p" class="setCard unselected_card">
+							<div class="keymap">(p)</div></td>
+						<td id="card_q" class="setCard unselected_card">
+							<div class="keymap">(q)</div></td>
+						<td id="card_r" class="setCard unselected_card">
+							<div class="keymap">(r)</div></td>
+					</tr>
+					<tr class="setRow" id="row7">
+						<td id="card_s" class="setCard unselected_card">
+							<div class="keymap">(s)</div></td>
+						<td id="card_t" class="setCard unselected_card">
+							<div class="keymap">(t)</div></td>
+						<td id="card_u" class="setCard unselected_card">
+							<div class="keymap">(u)</div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+	</body>
+</html>

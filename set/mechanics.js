@@ -1,5 +1,5 @@
 
-console.log("Last Updated: January 6, 2016");
+
 var ALPHABET = 'abcdefghijklmnopqrstu';
 var MAXCARDS = 12;
 var g_cardsDealt = 0;
@@ -11,16 +11,6 @@ var g_gameStart = 0;
 var g_timeElapsed = 0;
 var startTimer;
 
-function preloadImgs(callback) {
-	var images = [];
-	for (var i=0; i<g_cardSequence.length; i=i+1) {
-		img_path = "./cardimgs/"+g_cardSequence[i]+".gif";
-		$.get(img_path);
-		announce_perm("Loading...");
-	}
-	callback();
-}
-
 function reset_globals() {
 	MAXCARDS = 3*checkNumRowsInput();
 	g_cardsDealt = 0;
@@ -29,7 +19,6 @@ function reset_globals() {
 	g_cardsOnBoard = new Array(21);
 	g_vNum = 0; 
 	g_gameStart = 0;
-	clearInterval(startTimer);
 }
 
 function reset_game() {
@@ -353,23 +342,21 @@ $(document).ready(function() {
 	$("#startGame").click(function() {
 		reset_globals();
 		reset_game();
+		announce("New game!");
 		g_gameStart = new Date;
 		g_cardSequence = load_new_cards();
-		preloadImgs(function(){
-			announce("New game!");
-			for(var i=0; i<MAXCARDS/3; i++) {
-				one_more_row();
-			}
-			startTimer = setInterval(function() {
-			    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
-			}, 1000);
 
-			alphabet = ALPHABET.substring(0,g_vNum).split("");
-			for(var i=0; i<alphabet.length; i++) {
-				deal_card(alphabet[i]);
-			}
-		});
-		// make sure preloading images should be async
+		startTimer = setInterval(function() {
+		    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
+		}, 1000);
+
+		for(var i=0; i<MAXCARDS/3; i++) {
+			one_more_row();
+		}
+		alphabet = ALPHABET.substring(0,g_vNum).split("");
+		for(var i=0; i<alphabet.length; i++) {
+			deal_card(alphabet[i]);
+		}
 
 		$("#startGame").blur();
 	});
