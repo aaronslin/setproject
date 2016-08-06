@@ -25,7 +25,7 @@ Animations upon taking cards
 Mobile friendly
 Keep track of the number of v's
 Unfocus the Start New Game
-
+Replay option to undo (see a previous stage of the game)
 
 -------------------------
 Advanced functionalities:
@@ -52,4 +52,12 @@ Modes
 	How snarky the messages should be
 	Scatter; see list of ideas
 	Set puns
+	Find all sets before you can continue
+Upload to a more memorable URL
+Load all 12 of the first cards at the same time
+Google Analytics
 
+
+
+Make a better bugs/issues list 
+Look into server side languages (Scala?)

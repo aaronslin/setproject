@@ -14,10 +14,12 @@ var startTimer;
 function preloadImgs(callback) {
 	var images = [];
 	for (var i=0; i<g_cardSequence.length; i=i+1) {
+		var img = new Image();
 		img_path = "./cardimgs/"+g_cardSequence[i]+".gif";
-		$.get(img_path);
-		announce_perm("Loading...");
+		img.src=img_path;
+		//$.get(img_path);
 	}
+	console.log("Loading End", new Date().getTime());
 	callback();
 }
 
@@ -295,6 +297,30 @@ function update_HTML() {
 	$("#numSets").get(0).innerHTML = findAllSets().length;
 }
 
+function start_new_game() {
+	reset_globals();
+	reset_game();
+	g_gameStart = new Date;
+	g_cardSequence = load_new_cards();
+	preloadImgs(function(){
+		announce("New game!");
+		for(var i=0; i<MAXCARDS/3; i++) {
+			one_more_row();
+		}
+		startTimer = setInterval(function() {
+		    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
+		}, 1000);
+
+		alphabet = ALPHABET.substring(0,g_vNum).split("");
+		for(var i=0; i<alphabet.length; i++) {
+			deal_card(alphabet[i]);
+		}
+	});
+	// make sure preloading images should be async
+
+	$("#startGame").blur();
+}
+
 function get_hint() {
 	if (!$("#enableHints").is(":checked")) {
 		return;
@@ -351,27 +377,7 @@ function get_hint() {
 
 $(document).ready(function() {
 	$("#startGame").click(function() {
-		reset_globals();
-		reset_game();
-		g_gameStart = new Date;
-		g_cardSequence = load_new_cards();
-		preloadImgs(function(){
-			announce("New game!");
-			for(var i=0; i<MAXCARDS/3; i++) {
-				one_more_row();
-			}
-			startTimer = setInterval(function() {
-			    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
-			}, 1000);
-
-			alphabet = ALPHABET.substring(0,g_vNum).split("");
-			for(var i=0; i<alphabet.length; i++) {
-				deal_card(alphabet[i]);
-			}
-		});
-		// make sure preloading images should be async
-
-		$("#startGame").blur();
+		start_new_game();
 	});
 
 	$(document).keypress(function(press) {
@@ -384,6 +390,9 @@ $(document).ready(function() {
 		}
 		else if(tile=='x') {
 			get_hint();
+		}
+		else if (tile=='$') {
+			start_new_game();
 		}
 	});
 
@@ -409,6 +418,21 @@ $(document).ready(function() {
 	});
 });
 
+
+$('#container').imagesLoaded()
+  .always( function( instance ) {
+    console.log('all images loaded');
+  })
+  .done( function( instance ) {
+    console.log('all images successfully loaded');
+  })
+  .fail( function() {
+    console.log('all images loaded, at least one is broken');
+  })
+  .progress( function( instance, image ) {
+    var result = image.isLoaded ? 'loaded' : 'broken';
+    console.log( 'image is ' + result + ' for ' + image.img.src );
+  });
 
 
 
