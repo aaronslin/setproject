@@ -1,9 +1,9 @@
 
-console.log("Last Updated: January 6, 2016");
+console.log("Last Updated: August 5, 2016");
 var ALPHABET = 'abcdefghijklmnopqrstu';
 var MAXCARDS = 12;
 var g_cardsDealt = 0;
-var g_cardSequence;
+var g_cardSequence = [];
 var g_tilesSelected = [];
 var g_cardsOnBoard = new Array(21);
 var g_vNum = 0; // Set to 0 when no game in session
@@ -11,16 +11,16 @@ var g_gameStart = 0;
 var g_timeElapsed = 0;
 var startTimer;
 
-function preloadImgs(callback) {
+function preloadImgs() {
 	var images = [];
-	for (var i=0; i<g_cardSequence.length; i=i+1) {
+	var card_strings = load_new_cards(false);
+	for (var i=0; i<card_strings.length; i=i+1) {
 		var img = new Image();
-		img_path = "./cardimgs/"+g_cardSequence[i]+".gif";
+		img_path = "./cardimgs/"+card_strings[i]+".gif";
 		img.src=img_path;
 		//$.get(img_path);
 	}
-	console.log("Loading End", new Date().getTime());
-	callback();
+	//callback();
 }
 
 function reset_globals() {
@@ -41,7 +41,7 @@ function reset_game() {
 	}
 }
 
-function load_new_cards() {
+function load_new_cards(randomize) {
 	var cards = new Array();
 	
 	// Initialize array to 81 numbers
@@ -50,6 +50,9 @@ function load_new_cards() {
 	}
 	for(var n=10; n<=81; n++) {
 		cards.push(n.toString());
+	}
+	if (!randomize) {
+		return cards;
 	}
 
 	// Shuffle cards
@@ -301,24 +304,21 @@ function start_new_game() {
 	reset_globals();
 	reset_game();
 	g_gameStart = new Date;
-	g_cardSequence = load_new_cards();
-	preloadImgs(function(){
-		announce("New game!");
-		for(var i=0; i<MAXCARDS/3; i++) {
-			one_more_row();
-		}
-		startTimer = setInterval(function() {
-		    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
-		}, 1000);
-
-		alphabet = ALPHABET.substring(0,g_vNum).split("");
-		for(var i=0; i<alphabet.length; i++) {
-			deal_card(alphabet[i]);
-		}
-	});
-	// make sure preloading images should be async
-
+	g_cardSequence = load_new_cards(true);
 	$("#startGame").blur();
+
+	announce("New game!");
+	for(var i=0; i<MAXCARDS/3; i++) {
+		one_more_row();
+	}
+	startTimer = setInterval(function() {
+	    $("#timer").text(Math.floor((new Date - g_gameStart) / 1000));
+	}, 1000);
+
+	alphabet = ALPHABET.substring(0,g_vNum).split("");
+	for(var i=0; i<alphabet.length; i++) {
+		deal_card(alphabet[i]);
+	}
 }
 
 function get_hint() {
@@ -376,6 +376,8 @@ function get_hint() {
 }
 
 $(document).ready(function() {
+	preloadImgs();
+
 	$("#startGame").click(function() {
 		start_new_game();
 	});
@@ -417,22 +419,6 @@ $(document).ready(function() {
 		$("#numSetsContainer").toggleClass("transparent");
 	});
 });
-
-
-$('#container').imagesLoaded()
-  .always( function( instance ) {
-    console.log('all images loaded');
-  })
-  .done( function( instance ) {
-    console.log('all images successfully loaded');
-  })
-  .fail( function() {
-    console.log('all images loaded, at least one is broken');
-  })
-  .progress( function( instance, image ) {
-    var result = image.isLoaded ? 'loaded' : 'broken';
-    console.log( 'image is ' + result + ' for ' + image.img.src );
-  });
 
 
 
