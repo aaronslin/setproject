@@ -18,9 +18,7 @@ function preloadImgs() {
 		var img = new Image();
 		img_path = "./cardimgs/"+card_strings[i]+".gif";
 		img.src=img_path;
-		//$.get(img_path);
 	}
-	//callback();
 }
 
 function reset_globals() {
