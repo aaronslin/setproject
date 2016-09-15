@@ -12,11 +12,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var firebaseRef = new firebase.database().ref();
+var auth = firebase.auth();
+var firebaseRef = new firebase.database();
 
 
-function createUser(userObj) {
-	firebaseRef.createUser(userObj, function(error, userData) {
+function createUser(email, password) {
+	auth.createUserWithEmailAndPassword(email, password).catch(function(error, userData) {
 		if(error) {
 			console.log("Error creating user:", error);
 		} else {
@@ -32,7 +33,8 @@ $("#regForm").on("submit", function(event) {
 	$(this).serializeArray().map(function(x) {
 		userObj[x.name] = x.value;
 	});
-	createUser(userObj);
+	createUser(userObj.email, userObj.password);
+	// Note: these object property names (email, password) are currently hard-coded
 });
 
 
