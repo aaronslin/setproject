@@ -56,6 +56,19 @@ Modes
 Upload to a more memorable URL
 Load all 12 of the first cards at the same time
 Google Analytics
+Backspace to undo 
+
+
+---------------
+Firebase notes:
+---------------
+
+Organize the database at some point
+	Or at least understand how Firebase takes care of it for you
+Adding handlebars.js
+
+
+
 
 
 
