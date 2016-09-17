@@ -12,19 +12,57 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var auth = firebase.auth();
-var firebaseRef = new firebase.database();
+var firebaseRef = new firebase.database().ref();
 
+
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user) {
+		// User is signed in
+		console.log("inside authStateChanged (user exists)");
+	} else {
+		// User is not signed in
+		// Change the displays for the login button/features
+		console.log("inside authStateChanged (user DNE)");
+	}
+});
+
+function logIn(email, password) {
+	console.log("inside logIn");
+	firebase.auth().signInWithEmailAndPassword(email, password).
+		catch(function(error, userData) {
+			if (error) {
+				console.log("Error signing in:", error);
+			} else {
+				console.log("Logged in:", userData);
+			}
+		});
+}
 
 function createUser(email, password) {
-	auth.createUserWithEmailAndPassword(email, password).catch(function(error, userData) {
-		if(error) {
-			console.log("Error creating user:", error);
-		} else {
-			console.log("Successfully created account:", userData);
-		}
-	});
+	firebase.auth().createUserWithEmailAndPassword(email, password).
+		catch(function(error, userData) {
+			if(error) {
+				console.log("Error creating user:", error);
+			} else {
+				console.log("Successfully created account:", userData);
+			}
+		});
+	logIn(email, password);
+	// TODO: ^ race conditions! Does createUser... auto-login?
 }
+
+$("#loginForm").on("submit", function(event) {
+	event.preventDefault();
+
+	userObj = {};
+	$(this).serializeArray().map(function(x) {
+		userObj[x.name] = x.value;
+	});
+	// TODO: This ^ part is bad style: copy-pasted from regForm submit
+	logIn(userObj.email, userObj.password);
+});
 
 $("#regForm").on("submit", function(event) {
 	event.preventDefault();
@@ -35,21 +73,6 @@ $("#regForm").on("submit", function(event) {
 	});
 	createUser(userObj.email, userObj.password);
 	// Note: these object property names (email, password) are currently hard-coded
+	// TODO: clear form
 });
 
-
-
-// firebase.auth().onAuthStateChanged(function(user) {
-//   if (user) {
-//     // User is signed in.
-//   } else {
-//     // No user is signed in.
-//   }
-// });
-
-
-
-// // pseudocode
-// $("login_button").on("submit", function {
-
-// });
