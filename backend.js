@@ -15,6 +15,12 @@ firebase.initializeApp(config);
 var firebaseRef = new firebase.database().ref();
 
 
+$(document).ready(function() {
+	var authRowTemplate = Handlebars.compile($("#authRow").html());
+	var data = {"name": "Aaron"};
+	$("body").append(authRowTemplate(data));
+});
+
 
 
 firebase.auth().onAuthStateChanged(function(user) {
