@@ -15,24 +15,32 @@ firebase.initializeApp(config);
 var firebaseRef = new firebase.database().ref();
 
 
-$(document).ready(function() {
-	var authRowTemplate = Handlebars.compile($("#authRow").html());
-	var data = {"name": "Aaron"};
-	$("body").append(authRowTemplate(data));
-});
-
-
 
 firebase.auth().onAuthStateChanged(function(user) {
+	var userData = {};
 	if (user) {
 		// User is signed in
 		console.log("inside authStateChanged (user exists)");
+		userData = {"email": user.email};
 	} else {
 		// User is not signed in
 		// Change the displays for the login button/features
 		console.log("inside authStateChanged (user DNE)");
 	}
+	renderAuthRow(userData);
 });
+
+function renderAuthRow(data) {
+	var authRowHTML;
+	if ($.isEmptyObject(data)) {
+		var authRowHTML = $("#authRowLoggedOut").html();	
+	} else {
+		var authRowHTML = $("#authRowLoggedIn").html();
+	}
+
+	var authRowTemplate = Handlebars.compile(authRowHTML);
+	$("#authRow").html(authRowTemplate(data));
+}
 
 function logIn(email, password) {
 	console.log("inside logIn");
