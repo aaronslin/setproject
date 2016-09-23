@@ -33,9 +33,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 function renderAuthRow(data) {
 	var authRowHTML;
 	if ($.isEmptyObject(data)) {
-		var authRowHTML = $("#authRowLoggedOut").html();	
+		authRowHTML = $("#authRowLoggedOut").html();	
 	} else {
-		var authRowHTML = $("#authRowLoggedIn").html();
+		authRowHTML = $("#authRowLoggedIn").html();
 	}
 
 	var authRowTemplate = Handlebars.compile(authRowHTML);
@@ -66,6 +66,15 @@ function createUser(email, password) {
 	logIn(email, password);
 	// TODO: ^ race conditions! Does createUser... auto-login?
 }
+
+$("#authRow").on("click", "#logoutButton", function(event) {
+	firebase.auth().signOut()
+});
+
+// Problem: Apparently DOBSubtreeModified is deprecated?
+// Seems questionable/awkward to put the click listener inside? 
+//	 Perhaps more elegant way to add listener to object inside template?
+
 
 $("#loginForm").on("submit", function(event) {
 	event.preventDefault();

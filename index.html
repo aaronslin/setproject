@@ -7,6 +7,7 @@
 	<body>
 		<div id="wrapper" style="display: table">
 			<div id="authRow" style="display: table-row">
+				You're silly.
 			</div>
 			<div id="container" style="display: table-row">
 				<div id="leftMargin" style="display: table-cell">&nbsp;
@@ -145,12 +146,13 @@
 <script id="authRowLoggedIn" type="text/x-handlebars-template">
 	<div>
       My name is {{email}}.
+      <button id="logoutButton">Logout</button>
    </div>
 </script>
 
 <script id="authRowLoggedOut" type="text/x-handlebars-template">
 	<div>
-      You are not logged in.
+      You are not logged in. 
    </div>
 </script>
 

@@ -57,6 +57,7 @@ Upload to a more memorable URL
 Load all 12 of the first cards at the same time
 Google Analytics
 Backspace to undo 
+Make the letters bigger
 
 
 ---------------
